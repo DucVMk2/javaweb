@@ -44,11 +44,6 @@ public class BuildingAPI {
 //		System.out.print(params+" ");
 //	}
 	
-//	@RequestMapping(value = "/api/building/", method = RequestMethod.POST)
-//	public void getBuidlding3(@RequestBody BuildingDTO buildingDTO) {
-//		System.out.print("ok");
-//	}
-	
 	@DeleteMapping(value =  "/api/building/{id}/{name}")
 	public void deleteBuilding(@PathVariable(value = "id") String idbuilding,
 				@PathVariable(value = "name") String namebuilding) {
