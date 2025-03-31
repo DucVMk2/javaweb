@@ -1,18 +1,64 @@
 package com.javaweb.repository.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "building")
 public class BuildingEntity {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Long id;
+	
+	@Column(name = "name")
 	private String name;
-	private Long districtId;
+	
+	@Column(name = "numberofbasement")
 	private Integer numberOfBasement;
+	
+	@Column(name = "ward")
 	private String ward;
+	
+	@Column(name = "street")
 	private String street;
+	
+	@Column(name = "floorarea")
 	private Long floorArea;
+	
+	@Column(name = "rentprice")
 	private Long rentPrice;
+	
+	@Column(name = "managername")
 	private String managerName;
+	
+	@Column(name = "managerphonenumber")
 	private String managerPhonenumber;
+	
+	@Column(name = "servicefee")
 	private String serviceFee;
+	
+	@Column(name = "brokeragefee")
 	private Long brokerageFee;
+	
+	@ManyToOne
+	@JoinColumn(name = "districtid")
+	private DistrictEntity district;
+	
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+	private List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
+	
 	public String getName() {
 		return name;
 	}
@@ -21,12 +67,6 @@ public class BuildingEntity {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public Long getDistrictId() {
-		return districtId;
-	}
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
 	}
 	public Long getFloorArea() {
 		return floorArea;
@@ -85,5 +125,18 @@ public class BuildingEntity {
 	public void setStreet(String street) {
 		this.street = street;
 	}
+	public DistrictEntity getDistrict() {
+		return district;
+	}
+	public void setDistrict(DistrictEntity district) {
+		this.district = district;
+	}
+	public List<RentAreaEntity> getRentAreaEntities() {
+		return rentAreaEntities;
+	}
+	public void setRentAreaEntities(List<RentAreaEntity> rentAreaEntities) {
+		this.rentAreaEntities = rentAreaEntities;
+	}
+	
 	
 }
