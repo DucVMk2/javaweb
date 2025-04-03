@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.javaweb.model.BuildingDTO;
 import com.javaweb.model.BuildingRequestDTO;
+import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.entity.BuildingEntity;
 import com.javaweb.repository.entity.DistrictEntity;
 import com.javaweb.service.BuildingService;
@@ -33,12 +34,16 @@ public class BuildingAPI {
 	@Autowired
 	private BuildingService buildingService;
 	
+	@Autowired
+	private BuildingRepository buildingRepository;
+	
 	@Value("${dev.nguyen}")
 	private String data;
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	//Chức năng Tìm kiếm
 	@GetMapping(value = "/api/building/")
 	public List<BuildingDTO> getBuilding(@RequestParam Map<String, Object> params,
 										@RequestParam(name="typeCode", required = false) List<String> typeCode) {
@@ -46,48 +51,48 @@ public class BuildingAPI {
 		return result;
 	}
 	
-	@PostMapping(value = "/api/building/")
-	public void createBuilding(@RequestBody BuildingRequestDTO buildingRequestDTO) {
-		BuildingEntity buildEntity = new BuildingEntity();
-		buildEntity.setName(buildingRequestDTO.getName());
-		buildEntity.setNumberOfBasement(buildingRequestDTO.getNumberOfBasement());
-		buildEntity.setWard(buildingRequestDTO.getWard());
-		buildEntity.setStreet(buildingRequestDTO.getStreet());
-		buildEntity.setFloorArea(buildingRequestDTO.getFloorArea());
-		buildEntity.setRentPrice(buildingRequestDTO.getRentPrice());
-		buildEntity.setManagerName(buildingRequestDTO.getManagerName());
-		buildEntity.setManagerPhonenumber(buildingRequestDTO.getManagerPhonenumber());
-		buildEntity.setServiceFee(buildingRequestDTO.getServiceFee());
-		buildEntity.setBrokerageFee(buildingRequestDTO.getBrokerageFee());
-		DistrictEntity districtEntity = new DistrictEntity();
-		districtEntity.setId(buildingRequestDTO.getDistrictId());
-		buildEntity.setDistrict(districtEntity);
-		entityManager.persist(buildEntity);
-		System.out.print("ok");
-		
-	}	
+	//Demo JPA
+//	@PostMapping(value = "/api/building/")
+//	public void createBuilding(@RequestBody BuildingRequestDTO buildingRequestDTO) {
+//		BuildingEntity buildEntity = new BuildingEntity();
+//		buildEntity.setName(buildingRequestDTO.getName());
+//		buildEntity.setNumberOfBasement(buildingRequestDTO.getNumberOfBasement());
+//		buildEntity.setWard(buildingRequestDTO.getWard());
+//		buildEntity.setStreet(buildingRequestDTO.getStreet());
+//		buildEntity.setFloorArea(buildingRequestDTO.getFloorArea());
+//		buildEntity.setRentPrice(buildingRequestDTO.getRentPrice());
+//		buildEntity.setManagerName(buildingRequestDTO.getManagerName());
+//		buildEntity.setManagerPhonenumber(buildingRequestDTO.getManagerPhonenumber());
+//		buildEntity.setServiceFee(buildingRequestDTO.getServiceFee());
+//		buildEntity.setBrokerageFee(buildingRequestDTO.getBrokerageFee());
+//		DistrictEntity districtEntity = new DistrictEntity();
+//		districtEntity.setId(buildingRequestDTO.getDistrictId());
+//		buildEntity.setDistrict(districtEntity);
+//		entityManager.persist(buildEntity);
+//		System.out.print("ok");
+//	}	
 	
-	@PutMapping(value = "/api/building/")
-	public void updateBuilding(@RequestBody BuildingRequestDTO buildingRequestDTO) {
-		BuildingEntity buildEntity = new BuildingEntity();
-		buildEntity.setId(3L);
-		buildEntity.setName(buildingRequestDTO.getName());
-		buildEntity.setNumberOfBasement(buildingRequestDTO.getNumberOfBasement());
-		buildEntity.setWard(buildingRequestDTO.getWard());
-		buildEntity.setStreet(buildingRequestDTO.getStreet());
-		buildEntity.setFloorArea(buildingRequestDTO.getFloorArea());
-		buildEntity.setRentPrice(buildingRequestDTO.getRentPrice());
-		buildEntity.setManagerName(buildingRequestDTO.getManagerName());
-		buildEntity.setManagerPhonenumber(buildingRequestDTO.getManagerPhonenumber());
-		buildEntity.setServiceFee(buildingRequestDTO.getServiceFee());
-		buildEntity.setBrokerageFee(buildingRequestDTO.getBrokerageFee());
-		DistrictEntity districtEntity = new DistrictEntity();
-		districtEntity.setId(buildingRequestDTO.getDistrictId());
-		buildEntity.setDistrict(districtEntity);
-		entityManager.merge(buildEntity);
-		System.out.print("ok");
-		
-	}	
+	//Demo JPA
+//	@PutMapping(value = "/api/building/")
+//	public void updateBuilding(@RequestBody BuildingRequestDTO buildingRequestDTO) {
+//		BuildingEntity buildEntity = new BuildingEntity();
+//		buildEntity.setId(3L);
+//		buildEntity.setName(buildingRequestDTO.getName());
+//		buildEntity.setNumberOfBasement(buildingRequestDTO.getNumberOfBasement());
+//		buildEntity.setWard(buildingRequestDTO.getWard());
+//		buildEntity.setStreet(buildingRequestDTO.getStreet());
+//		buildEntity.setFloorArea(buildingRequestDTO.getFloorArea());
+//		buildEntity.setRentPrice(buildingRequestDTO.getRentPrice());
+//		buildEntity.setManagerName(buildingRequestDTO.getManagerName());
+//		buildEntity.setManagerPhonenumber(buildingRequestDTO.getManagerPhonenumber());
+//		buildEntity.setServiceFee(buildingRequestDTO.getServiceFee());
+//		buildEntity.setBrokerageFee(buildingRequestDTO.getBrokerageFee());
+//		DistrictEntity districtEntity = new DistrictEntity();
+//		districtEntity.setId(buildingRequestDTO.getDistrictId());
+//		buildEntity.setDistrict(districtEntity);
+//		entityManager.merge(buildEntity);
+//		System.out.print("ok");	
+//	}	
 	
 //	
 //	public void valiDate(BuildingDTO buildingDTO){
@@ -101,12 +106,47 @@ public class BuildingAPI {
 //		System.out.print(params+" ");
 //	}
 	
-	@DeleteMapping(value =  "/api/building/{id}")
-	public void deleteBuilding(@PathVariable Long id) {
-		BuildingEntity buildingEntity = entityManager.find(BuildingEntity.class, id);
-		entityManager.remove(buildingEntity);
-		System.out.print(data);
+	//Demo JPA
+//	@DeleteMapping(value =  "/api/building/{id}")
+//	public void deleteBuilding(@PathVariable Long id) {
+//		BuildingEntity buildingEntity = entityManager.find(BuildingEntity.class, id);
+//		entityManager.remove(buildingEntity);
+//		System.out.print(data);
+//	}
+	
+	//Demo Spring DataJPA
+	@GetMapping(value = "/api/building/{name}/{street}")
+	public BuildingDTO getBuildingById(@PathVariable String name,
+										@PathVariable String street) {
+		BuildingDTO result = new BuildingDTO();
+		List<BuildingEntity> building = buildingRepository.findByNameContainingAndStreet(name, street);
+		return result;
 	}
+	
+	@DeleteMapping(value = "/api/building/{id}")
+	public void deleteBuilding(@PathVariable Long[] id) {
+		buildingRepository.deleteByIdIn(id);
+	}
+	
+	@PutMapping(value = "/api/building/")
+	public void updateBuilding(@RequestBody BuildingRequestDTO buildingRequestDTO) {
+		BuildingEntity buildEntity = new BuildingEntity();
+		buildEntity.setName(buildingRequestDTO.getName());
+		buildEntity.setNumberOfBasement(buildingRequestDTO.getNumberOfBasement());
+		buildEntity.setWard(buildingRequestDTO.getWard());
+		buildEntity.setStreet(buildingRequestDTO.getStreet());
+		buildEntity.setFloorArea(buildingRequestDTO.getFloorArea());
+		buildEntity.setRentPrice(buildingRequestDTO.getRentPrice());
+		buildEntity.setManagerName(buildingRequestDTO.getManagerName());
+		buildEntity.setManagerPhonenumber(buildingRequestDTO.getManagerPhonenumber());
+		buildEntity.setServiceFee(buildingRequestDTO.getServiceFee());
+		buildEntity.setBrokerageFee(buildingRequestDTO.getBrokerageFee());
+		DistrictEntity districtEntity = new DistrictEntity();
+		districtEntity.setId(buildingRequestDTO.getDistrictId());
+		buildEntity.setDistrict(districtEntity);
+		buildingRepository.save(buildEntity);
+		System.out.print("ok");	
+	}	
 }
 
 //@RestController 
