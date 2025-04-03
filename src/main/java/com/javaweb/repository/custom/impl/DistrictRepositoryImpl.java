@@ -12,9 +12,9 @@ import com.javaweb.repository.entity.DistrictEntity;
 import com.javaweb.utils.ConnectionJDBCUtil;
 
 @Repository
-public class DistrictRepositoryImpl implements DistrictRepository{
+public class DistrictRepositoryImpl {
 	
-	@Override
+//	@Override
 	public DistrictEntity findNameById(Long id) {
 		String sql = "SELECT d.name FROM district d WHERE d.id = " + id;
 		DistrictEntity districtEntity = new DistrictEntity();
